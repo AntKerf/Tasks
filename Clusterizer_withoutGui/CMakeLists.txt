@@ -5,8 +5,6 @@ set(SOURCE_EXE main.cpp)
 
 set(SOURCE_LIB Cluster.cpp)			
 
-set(HEADER_LIB Cluster.cpp)
-
 add_library(Cluster STATIC ${SOURCE_LIB})	
 
 add_executable(Clusterizer ${SOURCE_EXE})	
