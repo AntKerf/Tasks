@@ -4,6 +4,7 @@ Clusterizer_No*
 *sln
 /build
 /.vs
+*.xml
 
 # C++ objects and libs
 *.slo
