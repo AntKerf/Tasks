@@ -1,0 +1,11 @@
+<SettingsList>
+	<fastCompute>0</fastCompute>
+	<merge>1</merge>
+	<display>0</display>
+	<text>1</text>
+	<icon>1</icon>
+	<points>1</points>
+	<lines>0</lines>
+	<radius>10</radius>
+	<textScale>5</textScale>
+</SettingsList>

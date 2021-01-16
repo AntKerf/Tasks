@@ -1,5 +1,9 @@
-#other directory
-.vs/
+#MyOtherFile
+Clusterize.*
+Clusterizer_No*
+*sln
+/build
+/.vs
 
 # C++ objects and libs
 *.slo
