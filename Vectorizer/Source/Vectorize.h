@@ -1,4 +1,5 @@
 #pragma once
+#include <Windows.h>
 //boost
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
@@ -22,19 +23,39 @@ class Vectorize
 private:
 	//variable
 	cv::Mat image_;
+	cv::Mat originalImage_;
+	bool hasSkelet_= true;
+	bool hasContour_= false;
+	bool hasObject_ = false;
+	bool isDisplayed_;
+
+	boost::filesystem::path saveDir_;
+	boost::filesystem::path name_;
 
 public:
-
 	Vectorize();
 	Vectorize(int argc, char* argv[]);
 	~Vectorize();
 
+	//setters
+	void setImage(std::string filename);
+	void useSkelet(bool state);
+	void useContour(bool state);
+	void useObject(bool state);
+
 	//methods
-	void thinningObjects();
-	void thinningObjects(cv::Mat& image);
+	void draw();
 	void display();
+	void save();
 
 private:
+	void thinningObjects();
+	void contouringObjects();
 	void thinning(const cv::Mat& in, cv::Mat& out);
 	void thinningIteration(cv::Mat& img, int iter);
+
+	//UICallbacks
+	static void _objectCallback(int pos, void* param);
+	static void _contourCallback(int pos, void* param);
+	static void _skeletCallback(int pos, void* param);
 };

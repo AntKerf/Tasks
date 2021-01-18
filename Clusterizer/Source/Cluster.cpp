@@ -26,6 +26,9 @@ Clusterize::Clusterize() : // default settings
 	catch (Exception& ex) {
 		cout << "Init error: " << ex.what() << endl;
 	}
+	catch (...) {
+		cout << "Init error: " << endl;
+	}
 }
 
 Clusterize::Clusterize(int& argc, char* argv[]) noexcept(false) : Clusterize()

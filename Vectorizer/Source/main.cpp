@@ -9,7 +9,10 @@ void menu(Vectorize&);
 int main(int argc, char* argv[])
 {
 	Vectorize vr;
-	vr.thinningObjects();
+	vr.setImage("D:/Users/Documents/GitHub/Tasks/Vectorizer/Example/TwoHardObj.jpg");
+	vr.useObject(true);
+	vr.useSkelet(true);
+	vr.draw();
 	vr.display();
 	return 0;
 }
