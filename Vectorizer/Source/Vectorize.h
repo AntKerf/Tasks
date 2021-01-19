@@ -27,7 +27,7 @@ private:
 	bool hasSkelet_= true;
 	bool hasContour_= false;
 	bool hasObject_ = false;
-	bool isDisplayed_;
+	bool isDisplayed_ = false;
 
 	boost::filesystem::path saveDir_;
 	boost::filesystem::path name_;
@@ -46,6 +46,12 @@ public:
 	void useSkelet(bool state);
 	void useContour(bool state);
 	void useObject(bool state);
+
+	//getters
+	std::string getSaveDir();
+	bool getOptionSkelet();
+	bool getOptionContour();
+	bool getOptionObject();
 
 	//methods
 	void draw();

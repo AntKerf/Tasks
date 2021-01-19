@@ -115,6 +115,26 @@ void Vectorize::useObject(bool state)
 	hasObject_ = state;
 }
 
+std::string Vectorize::getSaveDir()
+{
+	return saveDir_.string();
+}
+
+bool Vectorize::getOptionSkelet()
+{
+	return hasSkelet_;
+}
+
+bool Vectorize::getOptionContour()
+{
+	return hasContour_;
+}
+
+bool Vectorize::getOptionObject()
+{
+	return hasObject_;
+}
+
 void Vectorize::display()
 {
 	namedWindow("Display window", CV_WINDOW_AUTOSIZE); // Create a window for display.
