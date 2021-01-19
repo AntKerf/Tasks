@@ -33,12 +33,16 @@ private:
 	boost::filesystem::path name_;
 
 public:
+	//read config
 	Vectorize();
+	//init with console arguments
 	Vectorize(int argc, char* argv[]);
+	//freeing resources
 	~Vectorize();
 
 	//setters
 	void setImage(std::string filename);
+	void setSaveDir(std::string saveDirectory);
 	void useSkelet(bool state);
 	void useContour(bool state);
 	void useObject(bool state);

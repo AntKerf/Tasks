@@ -9,7 +9,7 @@ void menu(Vectorize&);
 int main(int argc, char* argv[])
 {
 	Vectorize vr;
-	vr.setImage("D:/Users/Documents/GitHub/Tasks/Vectorizer/Example/TwoHardObj.jpg");
+	vr.setImage("D:/Users/Documents/GitHub/Tasks/Vectorizer/Example/someObj.jpg");
 	vr.useObject(true);
 	vr.useSkelet(true);
 	vr.draw();

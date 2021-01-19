@@ -26,6 +26,7 @@ Vectorize::Vectorize() :
 
 Vectorize::Vectorize(int argc, char* argv[]) : Vectorize()
 {
+	bool _canDisplay = false;
 	for (int i = 0; i < argc; i++) {
 
 		if (strcmp(argv[i], "-i") == 0) {
@@ -37,14 +38,48 @@ Vectorize::Vectorize(int argc, char* argv[]) : Vectorize()
 			else throw std::invalid_argument("Image not found");
 		}
 
+		else if (strcmp(argv[i], "-o") == 0) {
+			hasObject_ = true;
+		}
+		else if (strcmp(argv[i], "-c") == 0) {
+			hasContour_ = true;
+		}
+		else if (strcmp(argv[i], "-s") == 0) {
+			hasSkelet_ = true;
+		}
+		else if (strcmp(argv[i], "-!o") == 0) {
+			hasObject_ = false;
+		}
+		else if (strcmp(argv[i], "-!c") == 0) {
+			hasContour_ = false;
+		}
+		else if (strcmp(argv[i], "-!s") == 0) {
+			hasSkelet_ = false;
+		}
+		else if (strcmp(argv[i], "-d") == 0) {
+			_canDisplay = true;
+		}
+		else if (strcmp(argv[i], "-saveDir") == 0) {
+			if (++i < argc)
+				setSaveDir(argv[i]);
+			else throw std::invalid_argument("Save directory not found");
+		}
 		else if (strcmp(argv[i], "-h") == 0) {
 			// printHelp();
 		}
 	}
+	draw();
+	if (_canDisplay)
+		display();
+	save();
 }
 
 Vectorize::~Vectorize()
 {
+	//freeing resources
+	image_.release();
+	originalImage_.release();
+	destroyAllWindows();
 }
 
 void Vectorize::setImage(std::string filename)
@@ -56,6 +91,12 @@ void Vectorize::setImage(std::string filename)
 		name_ = boost::filesystem::path(filename).filename();
 	}
 	else throw std::invalid_argument("Path to image is invalid");
+}
+
+void Vectorize::setSaveDir(std::string saveDirectory)
+{
+	saveDir_ = boost::filesystem::system_complete(
+		boost::filesystem::path(saveDirectory).append("/"));
 }
 
 void Vectorize::useSkelet(bool state)
@@ -115,28 +156,37 @@ void Vectorize::save()
 
 void Vectorize::thinningObjects()
 {
+	Mat _prev = Mat::zeros(originalImage_.size(), CV_8UC1);
+	thinning(~originalImage_, _prev);
+
 	if (hasObject_)
-	{
-		Mat _prev = Mat::zeros(originalImage_.size(), CV_8UC1);
-		thinning(~originalImage_, _prev);
 		add(image_, _prev, image_);
-	}
-	else {
-		thinning(~originalImage_, image_);
-		image_ = ~image_;
-	}
+	else
+		addWeighted(image_, 0.5, ~_prev, 0.5, 1, image_);
 }
 
 void Vectorize::contouringObjects()
 {
+	//Extract the contours so that
+	vector<vector<Point> > _contours;
+	vector<Vec4i> _hierarchy;
+
+	findContours(~originalImage_, _contours, _hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE);
+
+	Mat _cnt_img = Mat::zeros(originalImage_.size(), CV_8UC1);
+	drawContours(_cnt_img, _contours, -1, Scalar(255, 255, 255),
+		3, LINE_AA, _hierarchy, _contours.size());
+
+	addWeighted(image_, 0.5, ~_cnt_img, 0.5, 1, image_);
 }
 
 void Vectorize::draw()
 {
-	if (!hasObject_)
-		image_.zeros(originalImage_.size(), CV_8UC1);
-	else 
+
+	if (hasObject_)
 		image_ = originalImage_.clone(); // draw object on result image
+	else
+		image_ = (Mat(500, 500, CV_8UC1(3), Scalar(255, 255, 255)));
 
 	if (hasContour_)
 	{
@@ -148,7 +198,7 @@ void Vectorize::draw()
 		thinningObjects();
 	}
 
-	if(isDisplayed_)
+	if (isDisplayed_)
 		imshow("Display window", image_);
 }
 
@@ -229,7 +279,7 @@ void Vectorize::thinningIteration(cv::Mat& img, int iter)
 
 void Vectorize::_objectCallback(int pos, void* param)
 {
-	auto vr = (Vectorize*) param;
+	auto vr = (Vectorize*)param;
 	vr->hasObject_ = pos;
 	vr->draw();
 }
