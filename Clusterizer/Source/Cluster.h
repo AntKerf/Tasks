@@ -61,6 +61,9 @@ private:
 public:
 	//read config & init variables
 	Clusterize();
+	//freeing resources
+	~Clusterize();
+		
 	//execution of console arguments // init from arguments
 	Clusterize(int& argc, char* argv[]) noexcept(false);
 
