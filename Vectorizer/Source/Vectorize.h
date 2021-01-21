@@ -59,7 +59,9 @@ public:
 	void save();
 
 private:
-	void thinningObjects();
+	void readConfig(std::string path);
+	void createConfig(std::string path);
+	void thinningObjects();//get object skelet
 	void contouringObjects();
 	void thinning(const cv::Mat& in, cv::Mat& out);
 	void thinningIteration(cv::Mat& img, int iter);

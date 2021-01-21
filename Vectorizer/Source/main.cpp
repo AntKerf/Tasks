@@ -3,9 +3,11 @@
 #include "Vectorize.h"
 
 using namespace std;
+
 // function for console control
 void menu(Vectorize&);
 void menuSettings(Vectorize&);
+
 int main(int argc, char* argv[])
 {
 	Vectorize vr;

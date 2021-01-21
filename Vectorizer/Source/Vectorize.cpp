@@ -15,6 +15,15 @@ Vectorize::Vectorize() :
 		boost::filesystem::path rootDir_ = boost::filesystem::path(path).parent_path(); //directory with .exe 
 		//default directory for save images 
 		saveDir_ = (boost::filesystem::system_complete(rootDir_.string() + "/Vectorize Images/"));
+		//if config exists
+		if (boost::filesystem::is_regular_file(rootDir_.string() + "/VectorConfig.xml"))
+		{
+			readConfig(rootDir_.string() + "/VectorConfig.xml");
+		}
+		else // create new config file;
+		{
+			createConfig(rootDir_.string() + "/VectorConfig.xml");
+		}
 	}
 	catch (Exception& ex) {
 		cout << "Init error: " << ex.what() << endl;
@@ -89,6 +98,8 @@ void Vectorize::setImage(std::string filename)
 		originalImage_ = imread(filename, CV_8UC1(3)); // Read the file
 		threshold(originalImage_, originalImage_, 127, 255, THRESH_BINARY);//only black & white
 		name_ = boost::filesystem::path(filename).filename();
+		auto i = name_.string().find(".", 0);
+		name_ = name_.string().substr(0, i);
 	}
 	else throw std::invalid_argument("Path to image is invalid");
 }
@@ -168,10 +179,46 @@ void Vectorize::save()
 		else
 			cout << "Save error" << endl;
 	}
-	else if (cv::imwrite(saveDir_.string() + name_.string(), image_))
-		cout << "Image saved: " << saveDir_.string() + name_.string() << endl;
 	else
-		cout << "Save error" << endl;
+	{
+		string temp_name = saveDir_.string() + name_.string() + boost::posix_time::to_iso_string(
+			boost::posix_time::second_clock::local_time()) + ".jpg";
+
+		if (cv::imwrite(temp_name, image_))
+			cout << "Image saved: " << temp_name<< endl;
+		else
+			cout << "Save error" << endl;
+	}
+}
+
+void Vectorize::readConfig(std::string path)
+{
+	try {
+		boost::property_tree::ptree Config;
+		boost::property_tree::read_xml(path, Config); //read xml in .exe directory
+		Config = Config.get_child("SettingsList");
+		hasSkelet_ = Config.get<bool>("Skelet");
+		hasContour_ = Config.get<bool>("Contour");
+		hasObject_ = Config.get<bool>("Object");
+	}
+	//if bad config file - recreate to default
+	catch (boost::wrapexcept<boost::property_tree::ptree_bad_path> ex)
+	{
+		createConfig(path);
+	}
+}
+
+void Vectorize::createConfig(std::string path)
+{
+	boost::property_tree::ptree Config;
+	boost::property_tree::ptree Settings;
+	Settings.add<bool>("Skelet", hasSkelet_);
+	Settings.add<bool>("Contour", hasContour_);
+	Settings.add<bool>("Object", hasObject_);
+	Config.add_child("SettingsList", Settings);
+	auto write_settings = boost::property_tree::xml_writer_make_settings<string>('\t', 1);
+	boost::property_tree::write_xml(path, Config,
+		std::locale(), write_settings);
 }
 
 void Vectorize::thinningObjects()
