@@ -79,7 +79,12 @@ Clusterize::Clusterize(int& argc, char* argv[]) noexcept(false) : Clusterize()
 	draw(FLAG_canDisplay_);
 	save();
 }
-
+Clusterize::~Clusterize() 
+{
+	//freeing resources
+	image_.release();
+	destroyAllWindows();
+}
 void Clusterize::useDisplay(bool state)
 {
 	FLAG_canDisplay_ = state;
