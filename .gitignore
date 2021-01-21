@@ -1,6 +1,5 @@
 #other directory
 .vs/
-vectorizer/build/
 # C++ objects and libs
 *.slo
 *.lo

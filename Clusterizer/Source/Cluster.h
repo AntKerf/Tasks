@@ -1,12 +1,12 @@
 #pragma once
 #include <Windows.h> 
-
+//boost
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
-
+//opencv
 #include <opencv2/core.hpp>
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgcodecs.hpp>
@@ -14,7 +14,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/highgui/highgui_c.h>
 #include <opencv2/core/types_c.h>
-
+//std, stl
 #include <iostream>
 #include <list>
 #include <deque>
