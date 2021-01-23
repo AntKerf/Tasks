@@ -210,6 +210,7 @@ void menuSettings(Clusterize& cl)
 		break;
 	}
 	default:
+		menuSettings(cl);
 		break;
 	}
 }

@@ -1,6 +1,8 @@
 #other directory
 .vs/
 build/
+build.7z
+Release.7z
 # C++ objects and libs
 *.slo
 *.lo

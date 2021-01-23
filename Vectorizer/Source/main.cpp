@@ -102,6 +102,7 @@ void menu(Vectorize& vr)
 		break;
 	}
 	default:
+		menu(vr);
 		break;
 	}
 }
@@ -143,6 +144,7 @@ void menuSettings(Vectorize& vr)
 		break;
 	}
 	default:
+		menuSettings(vr);
 		break;
 	}
 }
