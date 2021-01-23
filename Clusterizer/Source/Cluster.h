@@ -76,6 +76,15 @@ public:
 	list<CvPoint> getPoints();
 	deque<deque<CvPoint>> getClusters();
 	deque<CvPoint> getClustersCentres();
+	bool getFlagFastCompute();
+	bool getFlagMerge();
+	bool getFlagDisplay();
+	bool getFlagText();
+	bool getFlagIcon();
+	bool getFlagPoints();
+	bool getFlagLines();
+	int getTextScale();
+	int getRadius();
 
 	//setters
 	void setImage(const string& filename);
@@ -85,7 +94,7 @@ public:
 	void setTextScale(const int scale);
 
 	void useFastCompute(bool state=false);
-	void useMergingClusters(bool state=true);
+	void useMerge(bool state=true);
 	void useDisplay(bool state=false);
 	void useDrawingText(bool state=true);
 	void useDrawingIcons(bool state=true);

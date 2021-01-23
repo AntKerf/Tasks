@@ -1,5 +1,6 @@
 #other directory
 .vs/
+build/
 # C++ objects and libs
 *.slo
 *.lo

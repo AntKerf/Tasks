@@ -18,6 +18,8 @@ Initialization is available via cmd arguments :
 
 // function for console control
 void menu(Clusterize&);
+void menuSettings(Clusterize&);
+
 
 int main(int argc, char* argv[])
 {
@@ -41,13 +43,13 @@ void menu(Clusterize& cl)
 {
 	int option = 0;
 	cout <<
-		"1: Set image path\n" <<
-		"2: Display image\n" <<
-		"3: Add point\n" <<
-		"4: Settings\n" <<
-		"5: Save\n" <<
-		"6: Menu\n" <<
-		"7: Exit\n"
+		"\n1: Set image path" <<
+		"\n2: Display image" <<
+		"\n3: Add point" <<
+		"\n4: Settings" <<
+		"\n5: Save" <<
+		"\n6: Menu" <<
+		"\n7: Exit"
 		<< endl;
 
 	cin >> option;
@@ -82,7 +84,7 @@ void menu(Clusterize& cl)
 	}
 	case 4:
 	{
-		//settingsMenu(cl);
+		menuSettings(cl);
 		break;
 	}
 	case 5:
@@ -118,6 +120,96 @@ void menu(Clusterize& cl)
 		break;
 	default:
 		menu(cl);
+		break;
+	}
+}
+
+void menuSettings(Clusterize& cl)
+{
+	int option = 0;
+
+	cout << std::boolalpha <<
+		"\n1: Fast Compute: " << cl.getFlagFastCompute() <<
+		"\n2: Merging clusters: " << cl.getFlagMerge() <<
+		"\n3: Auto Display: " << cl.getFlagDisplay() <<
+		"\n4: Text: " << cl.getFlagText() <<
+		"\n5: Icons: " << cl.getFlagIcon() <<
+		"\n6: Points: " << cl.getFlagPoints() <<
+		"\n7: Lines:" << cl.getFlagLines() <<
+		"\n8: Text Scale: " << cl.getTextScale() <<
+		"\n9: Radius : " << cl.getRadius() <<
+		"\n10: Menu" << endl;
+
+	cin >> option;
+
+	switch (option)
+	{
+	case 1:
+	{
+		cl.useFastCompute(!cl.getFlagFastCompute());
+		menuSettings(cl);
+		break;
+	}
+	case 2:
+	{
+		cl.useMerge(!cl.getFlagMerge());
+		menuSettings(cl);
+		break;
+	}
+	case 3:
+	{
+		cl.useDisplay(!cl.getFlagDisplay());
+		menuSettings(cl);
+		break;
+	}
+	case 4:
+	{
+		cl.useDrawingText(!cl.getFlagText());
+		menuSettings(cl);
+		break;
+	}
+	case 5:
+	{
+		cl.useDrawingLines(!cl.getFlagLines());
+		menuSettings(cl);
+		break;
+	}
+	case 6:
+	{
+		cl.useDrawingPoints(!cl.getFlagPoints());
+		menuSettings(cl);
+		break;
+	}
+	case 7:
+	{
+		cl.useDrawingLines(!cl.getFlagLines());
+		menuSettings(cl);
+		break;
+	}
+	case 8:
+	{
+		int _scale;
+		cout << "Enter TextScale: ";
+		cin >> _scale;
+		cl.setTextScale(_scale);
+		menuSettings(cl);
+		break;
+	}
+	case 9:
+	{
+		int _radius;
+		cout << "Enter radius:";
+		cin >> _radius;
+		cl.setRadius(_radius);
+		menuSettings(cl);
+		break;
+	}
+	case 10:
+	{
+		menu(cl);
+		break;
+	}
+	default:
 		break;
 	}
 }

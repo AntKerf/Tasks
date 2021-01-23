@@ -161,6 +161,51 @@ deque<CvPoint> Clusterize::getClustersCentres()
 	return clustersCentres_;
 }
 
+bool Clusterize::getFlagFastCompute()
+{
+	return FLAG_fastCompute_;
+}
+
+bool Clusterize::getFlagMerge()
+{
+	return FLAG_hasMerge_;
+}
+
+bool Clusterize::getFlagDisplay()
+{
+	return FLAG_canDisplay_;
+}
+
+bool Clusterize::getFlagText()
+{
+	return FLAG_hasText_;
+}
+
+bool Clusterize::getFlagIcon()
+{
+	return FLAG_hasIcon_;
+}
+
+bool Clusterize::getFlagPoints()
+{
+	return FLAG_hasPoints_;
+}
+
+bool Clusterize::getFlagLines()
+{
+	return FLAG_hasLines_;
+}
+
+int Clusterize::getTextScale()
+{
+	return textScale_;
+}
+
+int Clusterize::getRadius()
+{
+	return radius_;
+}
+
 void Clusterize::setImage(const string& filename)
 {
 	if (boost::filesystem::is_regular_file(filename) && _is_jpg(filename))//if real and jpg file
@@ -198,7 +243,7 @@ void Clusterize::useFastCompute(bool state)
 	FLAG_fastCompute_ = state;
 }
 
-void Clusterize::useMergingClusters(bool state)
+void Clusterize::useMerge(bool state)
 {
 	FLAG_hasMerge_ = state;
 }
