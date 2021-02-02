@@ -3,6 +3,7 @@
 build/
 build.7z
 Release.7z
+Fractal Adventure/
 # C++ objects and libs
 *.slo
 *.lo
